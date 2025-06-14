@@ -14,7 +14,7 @@
 </head>
 <body>
 
-    <header id="main-header">
+    <header id="main-header" style="backdrop-filter: blur(200px);">
         <div class="container">
             <a href="../index.html" class="logo">TOEFL Ascent</a>
             <nav>
@@ -62,7 +62,7 @@
                         <h3 class="question-title">Listening Comprehension</h3>
                         <div id="listening-player-container">
                             <p>Play the audio to answer the questions.</p>
-                            <audio controls src="audio/sample_audio.mp3" id="audio-player"></audio>
+                            <audio id="audio-controls" controls src="../assets/audio/1.mp3" id="audio-player"></audio>
                         </div>
                         <p class="question-text" id="listening-question-text">1. What does the man imply?</p>
                     </div>
@@ -94,7 +94,6 @@
                 <div class="test-navigation">
                     <div class="progress-indicator" id="progress-indicator">Question 1 of 50</div>
                     <div class="nav-buttons">
-                        <button class="btn-nav" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
                         <button class="btn-nav" id="next-btn">Next <i class="fas fa-arrow-right"></i></button>
                         <button class="btn-finish" id="finish-btn">Finish Section</button>
                     </div>
@@ -128,6 +127,6 @@
         </div>
         </main>
     
-    <script src="./script.js"></script>
+    <script type="module" src="./script.js"></script>
 </body>
 </html>
