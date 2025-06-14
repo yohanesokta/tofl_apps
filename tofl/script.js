@@ -89,8 +89,13 @@ if (document.getElementById('test-interface')) {
     function loadQuestion() {
         const questionData = questions[currentSection][currentQuestionIndex];
         console.log(questionData)
-        audio_control.setAttribute("src", "../assets/audio/" + questionData.source)
-        questionTextElements[currentSection].textContent = `${questionData.number}. ${questionData.question}`;
+        if (questionData.type == "audio") {
+            audio_control.setAttribute("src", "../assets/audio/" + questionData.source)
+        } else if (questionData.type == "text") {
+            document.getElementById('text-for').textContent = `Passage 1 (Questions ${questionData['reading_text'].for})`
+            document.getElementById('text-quest').textContent = questionData['reading_text'].text
+        }
+        questionTextElements[currentSection].textContent = `${questionData.number ?? currentQuestionIndex+1}. ${questionData.question}`;
         answerOptionsContainer.innerHTML = '';
         questionData.options.forEach((option, index) => {
             const optionId = `q${currentQuestionIndex}_opt${index}`;
