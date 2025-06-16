@@ -12,6 +12,7 @@ if (document.getElementById('test-interface')) {
     const userProfileDisplay = document.getElementById('user-profile-display');
     const btnFinish = document.getElementById('finish-btn')
     const point_display = document.getElementById('point');
+    const score_display = document.getElementById('score-display');
     let selectedAvatarSrc = null;
     let timeString = "";
     // Test Elements
@@ -38,6 +39,23 @@ if (document.getElementById('test-interface')) {
         document.getElementById('user-name').textContent = profile.name;
         document.getElementById('user-avatar').src = profile.avatar;
         userProfileDisplay.classList.remove('hidden');
+        const timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function save_and_display_score() {
+        const score = Math.floor((point * 10) / 3);
+        const time = new Date();
+        score_display.textContent = score;
+        document.getElementById('ending').style.display = "flex";
+        let data_profile = localStorage.getItem('toeflUserProfile');
+        let data_history = localStorage.getItem('history');
+        data_history = JSON.parse(data_history)
+        data_profile = JSON.parse(data_profile)
+        data_profile['score'] = score
+        data_profile['date'] = `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`
+        data_profile['rank'] = data_history.length + 1
+        data_history.push(data_profile)
+        localStorage.setItem("history",JSON.stringify(data_history));
     }
 
     avatarGrid.addEventListener('click', (e) => {
@@ -78,9 +96,15 @@ if (document.getElementById('test-interface')) {
         }
     }
 
+      const score_data = {
+        "listening" : 1.45,
+        "structure" : 2.53,
+        "reading" : 1.34
+    }
+
     function switchSection(sectionName) {
         if (nowTrue) {
-            point += 1;point_display.textContent = point;nowTrue=false
+            point += score_data[currentSection];point_display.textContent = point;nowTrue=false
         }
         currentSection = sectionName;
         currentQuestionIndex = 0;
@@ -93,12 +117,14 @@ if (document.getElementById('test-interface')) {
 
     let nowTrue = false
 
+  
+
     function loadQuestion() {
 
         const questionData = questions[currentSection][currentQuestionIndex];
         console.log(nowTrue)
         if (nowTrue) {
-            point += 1;point_display.textContent = point;nowTrue=false
+            point += score_data[currentSection];point_display.textContent = point;nowTrue=false
         }
 
         if (questionData.type == "audio") {
@@ -155,6 +181,8 @@ if (document.getElementById('test-interface')) {
                 switchSection('structure'); break;
             case 'structure' : 
                 switchSection('reading'); break;
+            case 'reading':
+                save_and_display_score(); break;
         }
     })
 
@@ -177,6 +205,8 @@ if (document.getElementById('test-interface')) {
                 switchSection('structure'); break;
             case "00:55:00":
                 switchSection('reading'); break;
+            case "00:00:01":
+                save_and_display_score(); break;
         }
 
         if (totalSeconds > 0) {
@@ -187,7 +217,6 @@ if (document.getElementById('test-interface')) {
         }
     }
 
-    const timerInterval = setInterval(updateTimer, 1000);
 
     // --- INITIAL PAGE LOAD ---
     checkUserProfile();

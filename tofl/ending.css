@@ -1,0 +1,40 @@
+.ending {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.329);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .ending-container {
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background-color: var(--bg-dark);
+        width: max-content;
+        p{
+            text-align: center;
+            font-size: 18pt;
+            background-color: var(--bg-light-trans);
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        a {
+            color: white;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.24);
+        }
+    }
+}
