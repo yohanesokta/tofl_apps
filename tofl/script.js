@@ -55,6 +55,7 @@ if (document.getElementById('test-interface')) {
         data_profile['date'] = `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`
         data_profile['rank'] = data_history.length + 1
         data_history.push(data_profile)
+        localStorage.removeItem('toeflUserProfile')
         localStorage.setItem("history",JSON.stringify(data_history));
     }
 
