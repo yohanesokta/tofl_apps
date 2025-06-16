@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sertifikat TOEFL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #sertifikat {
+            width: 297mm;
+            height: 210mm;
+            padding: 30px;
+            box-sizing: border-box;
+            background-color: white;
+            border: 10px solid #1e4d91;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: #1e4d91;
+            margin-top: 40px;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            margin-top: 30px;
+        }
+
+        .nama {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            color: #d4af37;
+            margin: 40px 0;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+        }
+
+        .deskripsi {
+            font-size: 18px;
+            max-width: 70%;
+        }
+        
+        .skor {
+            font-size: 72px;
+            font-weight: bold;
+            color: #1e4d91;
+            margin: 30px 0;
+        }
+        
+        #tombol-cetak {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* CSS KHUSUS UNTUK PRINT */
+        @media print {
+            body {
+                background-color: white; /* Hapus background abu-abu saat print */
+            }
+            #tombol-cetak {
+                display: none; /* Sembunyikan tombol saat print */
+            }
+            @page {
+                size: A4 landscape; /* Atur halaman ke landscape */
+                margin: 0; /* Hapus margin default browser */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sertifikat">
+        <h1 class="title">CERTIFICATE OF ACHIEVEMENT</h1>
+        <p class="subtitle">This is to certify that</p>
+        <h2 class="nama" id="nama-peserta">Nama Peserta</h2>
+        <p class="deskripsi">
+            has successfully completed the Test of English as a Foreign Language (TOEFL) and achieved the score of:
+        </p>
+        <div class="skor" id="skor-toefl">550</div>
+    </div>
+    
+    <button id="tombol-cetak" onclick="generateSertifikat()">Download Sertifikat</button>
+
+    <script>
+        // Data dinamis bisa dari input form, URL parameter, atau API
+        const nama = localStorage.getItem('name');
+        const skor = localStorage.getItem('score');
+
+        document.getElementById('nama-peserta').innerText = nama;
+        document.getElementById('skor-toefl').innerText = skor;
+
+        function generateSertifikat() {
+            window.print();
+            localStorage.removeItem('toeflUserProfile')
+            window.location.href = "../"
+        }
+    </script>
+
+</body>
+</html>
