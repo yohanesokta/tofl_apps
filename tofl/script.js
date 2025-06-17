@@ -22,6 +22,25 @@ if (document.getElementById('test-interface')) {
     let point = 0;
     let currentQuestionIndex = 0;
     let userAnswers = {};
+    const score_data = {
+        "listening" : {
+            data : [],
+            acumulate : 1.45,
+            total : 0
+        },
+        
+        "structure" : {
+            data : [],
+            acumulate : 2.53,
+            total : 0
+        },
+        "reading" : {
+            data : [],
+            acumulate : 1.34,
+            total : 0
+        }
+    }
+
     const tabButtons = document.querySelectorAll('.tab-btn');
     const testSections = document.querySelectorAll('.test-section');
     const audio_control = document.getElementById("audio-controls");
@@ -42,8 +61,18 @@ if (document.getElementById('test-interface')) {
         const timerInterval = setInterval(updateTimer, 1000);
     }
 
+    userProfileDisplay.addEventListener('click',function updateProfile(){
+        userProfileDisplay.classList.add('hidden');
+        profileModal.classList.remove('hidden')
+    })
+    
+
     function save_and_display_score() {
-        const score = Math.floor((point * 10) / 3);
+        let total_data = 0
+        Object.keys(score_data).forEach((key)=> {
+            total_data += score_data[key].total * score_data[key].acumulate
+        })
+        const score = Math.floor((total_data * 10) / 3);
         const time = new Date();
         score_display.textContent = score;
         document.getElementById('ending').style.display = "flex";
@@ -52,13 +81,18 @@ if (document.getElementById('test-interface')) {
         data_history = JSON.parse(data_history)
         data_profile = JSON.parse(data_profile)
         data_profile['score'] = score
+        data_profile['listening'] = score_data.listening.total
+        data_profile['reading'] = score_data.reading.total
+        data_profile['structure'] = score_data.structure.total
         localStorage.setItem("name",data_profile.name)
         localStorage.setItem('score',score)
         data_profile['date'] = `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`
         data_profile['rank'] = data_history.length + 1
         data_history.push(data_profile)
         localStorage.setItem("history",JSON.stringify(data_history));
+        localStorage.removeItem('toeflUserProfile')
     }
+
 
     avatarGrid.addEventListener('click', (e) => {
         if (e.target.classList.contains('avatar-option')) {
@@ -98,17 +132,25 @@ if (document.getElementById('test-interface')) {
         }
     }
 
-      const score_data = {
-        "listening" : 1.45,
-        "structure" : 2.53,
-        "reading" : 1.34
+    function countCurrentPoint() {
+        point = 0
+        Object.keys(score_data).forEach((key)=> {
+            let temp_total = 0;
+            score_data[key].data.forEach((element) => {
+                if (element) {
+                    point += 1; temp_total+= 1
+                }
+            })
+            score_data[key].total = temp_total
+        })
+        
+
     }
 
+
     function switchSection(sectionName) {
-        if (nowTrue) {
-            point += score_data[currentSection];point_display.textContent = point;nowTrue=false
-        }
         currentSection = sectionName;
+        countCurrentPoint();
         currentQuestionIndex = 0;
         tabButtons.forEach(btn => btn.classList.remove('active'));
         document.querySelector(`.tab-btn[data-section="${sectionName}"]`).classList.add('active');
@@ -116,18 +158,9 @@ if (document.getElementById('test-interface')) {
         document.getElementById(`${sectionName}-section`).classList.add('active');
         loadQuestion();
     }
-
-    let nowTrue = false
-
-  
-
     function loadQuestion() {
 
         const questionData = questions[currentSection][currentQuestionIndex];
-        console.log(nowTrue)
-        if (nowTrue) {
-            point += score_data[currentSection];point_display.textContent = point;nowTrue=false
-        }
 
         if (questionData.type == "audio") {
             audio_control.setAttribute("src", "../assets/audio/" + questionData.source)
@@ -152,7 +185,8 @@ if (document.getElementById('test-interface')) {
         answerOptionsContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
                 userAnswers[`${currentSection}-${currentQuestionIndex}`] = parseInt(e.target.value);
-                nowTrue = parseInt(e.target.value) == questionData.answer
+                score_data[currentSection].data[`${currentQuestionIndex}`] = parseInt(e.target.value ) == questionData.answer
+                countCurrentPoint();
             });
         });
         updateNavigation();
@@ -162,11 +196,15 @@ if (document.getElementById('test-interface')) {
         const totalQuestions = questions[currentSection].length;
         progressIndicator.textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
         nextBtn.disabled = currentQuestionIndex === totalQuestions - 1;
+        point_display.textContent = point
     }
 
-    // tabButtons.forEach(btn => {
-    //     btn.addEventListener('click', () => switchSection(btn.dataset.section));
-    // });
+    document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        });
 
     nextBtn.addEventListener('click', () => {
         if (currentQuestionIndex < questions[currentSection].length - 1) {
@@ -178,6 +216,7 @@ if (document.getElementById('test-interface')) {
 
 
     btnFinish.addEventListener('click', () => {
+        countCurrentPoint();
         switch (currentSection) {
             case 'listening' : 
                 switchSection('structure'); break;

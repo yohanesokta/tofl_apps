@@ -24,7 +24,11 @@
             border-radius: 8px;
             margin: 10px 0;
         }
-        a {
+        .ending-btn{
+            width: 100%;
+            display: flex;
+            gap: 20px;
+            a {
             color: white;
             width: 100%;
             text-align: center;
@@ -35,6 +39,10 @@
             border-radius: 5px;
             text-decoration: none;
             background-color: rgba(255, 255, 255, 0.24);
+            }
+            a:first-child{
+                background-color: rgba(80, 80, 80, 0.356);
+            }
         }
     }
 }

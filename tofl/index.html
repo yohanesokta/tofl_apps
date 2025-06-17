@@ -23,9 +23,10 @@
                     <li><a href="../index.html#fitur">Fitur</a></li>
                     <li><a href="../leaderboard/">Leaderboard</a></li>
                     <li><a href="../#testimoni">Testimoni</a></li>
+                    <li><a href="../riwayat/">Riwayat</a></li>
                 </ul>
             </nav>
-            <div id="user-profile-display" class="hidden">
+            <div onclick="update" id="user-profile-display" class="hidden">
                 <span id="user-name"></span>
                 <img id="user-avatar" src="" alt="Avatar">
             </div>
@@ -97,6 +98,7 @@
                 <div class="test-navigation">
                     <div class="progress-indicator" id="progress-indicator">Question 1 of 50</div>
                     <div class="nav-buttons">
+                        <button class="btn-nav" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
                         <button class="btn-nav" id="next-btn">Next <i class="fas fa-arrow-right"></i></button>
                         <button class="btn-finish" id="finish-btn">Finish Section</button>
                     </div>
@@ -132,8 +134,11 @@
         <div id="ending" class="ending" style="display: none;" >
             <div class="ending-container">
                 <h1>Selamat 🎉 Score Kamu:</h1>
-                <p id="score-display"></p>
-                <a href="./sertif.html">Lanjut</a>
+                <p id="score-display">600</p>
+                <div class="ending-btn">
+                    <a href="../leaderboard/">Lihat Leaderboard</a>
+                    <a href="../riwayat/">Lihat History</a>
+                </div>
             </div>
         </div>
 

@@ -81,18 +81,28 @@ document.addEventListener('DOMContentLoaded', () => {
         function renderLeaderboard(data) {
             const podiumData = data.slice(0, 3);
             const listData = data.slice(3);
-
+            if (podiumData[0]) {
+            document.getElementById('pod-1').style.display = "block"
             document.getElementById('rank1-name').textContent = podiumData[0].name;
             document.getElementById('rank1-score').textContent = podiumData[0].score;
             document.getElementById('rank1-img').src = podiumData[0].avatar;
+            }
             
+            if (podiumData[1]) {
+            document.getElementById('pod-2').style.display = "block"
+
             document.getElementById('rank2-name').textContent = podiumData[1].name;
             document.getElementById('rank2-score').textContent = podiumData[1].score;
             document.getElementById('rank2-img').src = podiumData[1].avatar;
+            }
+
+            if (podiumData[2]) {
+            document.getElementById('pod-3').style.display = "block"
 
             document.getElementById('rank3-name').textContent = podiumData[2].name;
             document.getElementById('rank3-score').textContent = podiumData[2].score;
             document.getElementById('rank3-img').src = podiumData[2].avatar;
+            }
             
             const leaderboardBody = document.getElementById('leaderboard-body');
             leaderboardBody.innerHTML = ''; 
