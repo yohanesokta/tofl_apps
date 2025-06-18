@@ -219,11 +219,11 @@ if (document.getElementById('test-interface')) {
         countCurrentPoint();
         switch (currentSection) {
             case 'listening' : 
-                switchSection('structure'); break;
+                switchSection('structure'); totalSeconds = 70*60; break;
             case 'structure' : 
-                switchSection('reading'); break;
+                switchSection('reading'); totalSeconds = 55*60; break;
             case 'reading':
-                save_and_display_score(); break;
+                save_and_display_score(); totalSeconds = 0; break;
         }
     })
 
@@ -243,11 +243,11 @@ if (document.getElementById('test-interface')) {
 
         switch (timeString) {
             case "01:10:00":
-                switchSection('structure'); break;
+                switchSection('structure'); totalSeconds = 70*60; break;
             case "00:55:00":
-                switchSection('reading'); break;
+                switchSection('reading'); totalSeconds = 55*60; break;
             case "00:00:01":
-                save_and_display_score(); break;
+                save_and_display_score(); totalSeconds = 0; break;
         }
 
         if (totalSeconds > 0) {
