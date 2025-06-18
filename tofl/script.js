@@ -25,19 +25,19 @@ if (document.getElementById('test-interface')) {
     const score_data = {
         "listening" : {
             data : [],
-            acumulate : 1.45,
-            total : 0
+            total : 0,
+            plus : 24
         },
         
         "structure" : {
             data : [],
-            acumulate : 2.53,
-            total : 0
+            total : 0,
+            plus : 20
         },
         "reading" : {
             data : [],
-            acumulate : 1.34,
-            total : 0
+            total : 0,
+            plus : 21
         }
     }
 
@@ -70,7 +70,7 @@ if (document.getElementById('test-interface')) {
     function save_and_display_score() {
         let total_data = 0
         Object.keys(score_data).forEach((key)=> {
-            total_data += score_data[key].total * score_data[key].acumulate
+            total_data += score_data[key].total + score_data[key].plus
         })
         const score = Math.floor((total_data * 10) / 3);
         const time = new Date();
